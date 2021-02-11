@@ -1,0 +1,18 @@
+{% extends "./base.html" %}
+
+{% block content %}
+{% regroup publishers by publisher as publishers_list %}
+<ul>
+    {% for publisher in publishers_list %}
+        <li>
+            {{ publisher.grouper }}
+                <ul>
+                    {% for item in publisher.list %}
+                        <li> {{ item.title }}</li>
+                    {% endfor %}
+                </ul>
+        </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
