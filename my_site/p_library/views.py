@@ -8,7 +8,7 @@ from p_library.models import Book
 
 # Create your views here.
 
-def books_list():
+def books_list(request):
     books = Book.objects.all()
     qs_json = serializers.serialize('json', books)
     return HttpResponse(qs_json, content_type='application/json')
