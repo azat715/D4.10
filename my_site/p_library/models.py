@@ -25,6 +25,16 @@ class Publisher(models.Model):
     def __str__(self):
         return str(self.name)
 
+class Friend(models.Model):
+    name = models.TextField()
+
+    def __repr__(self):
+        return 'FriendBookReader({self.name},)'.format(self=self)
+
+    def __str__(self):
+        return str(self.name)
+
+
 class Book(models.Model):
     ISBN = models.CharField(max_length=13)
     title = models.TextField()
@@ -34,6 +44,7 @@ class Book(models.Model):
     copy_count = models.PositiveSmallIntegerField(default=1)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     publisher = models.ForeignKey(Publisher, null=True, on_delete=models.SET_NULL)
+    book_reader = models.ManyToManyField(Friend, through='BookReader')
 
     def __repr__(self):
         return 'Book({self.ISBN}, {self.title}, {self.description}, {self.year_release}, {self.price}, {self.copy_count}, {self.author})'.format(self=self)
@@ -41,5 +52,8 @@ class Book(models.Model):
     def __str__(self):
         return str(self.title)
 
-
-
+class BookReader(models.Model):
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+    friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
+    date_send = models.DateField()
+    copy_count_send = models.PositiveSmallIntegerField(default=1)

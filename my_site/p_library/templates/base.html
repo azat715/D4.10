@@ -16,8 +16,11 @@
 		</div>
 		<nav> 
 			<ul class="nav">
-				<li class="nav-item"><a href="{% url 'books' %}">Книги</a>
-				<li class="nav-item"><a href="{% url 'publishers' %}">Издательства</a>
+				<li class="nav-item"><a href="{% url 'p_library:books' %}">Книги</a>
+				<li class="nav-item"><a href="{% url 'p_library:book_send' %}">Передать книгу</a>
+				<li class="nav-item"><a href="{% url 'p_library:publishers' %}">Издательства</a>
+				<li class="nav-item"><a href="{% url 'p_library:friend_list' %}">Друзья</a>
+				<li class="nav-item"><a href="{% url 'p_library:friend_create' %}">Добавить друга</a>
 			</ul>
 		</nav>
 

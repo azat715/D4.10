@@ -3,17 +3,21 @@ from django.core import serializers
 from django.shortcuts import render
 from django.template import loader
 from django.shortcuts import redirect
+from django.views.generic import CreateView, ListView, DetailView
+from django.urls import reverse_lazy
 
-from p_library.models import Book
+from p_library.models import Book, Friend, BookReader
+from p_library.forms import FriendForm, BookSendForm
+
 
 # Create your views here.
 
-def books_list(request):
+def books_json(request):
     books = Book.objects.all()
     qs_json = serializers.serialize('json', books)
     return HttpResponse(qs_json, content_type='application/json')
 
-def index(request):
+def books_list(request):
     template = loader.get_template('index.html')
     books = Book.objects.all()
     biblio_data = {
@@ -63,3 +67,30 @@ def publisher_list(request):
     return render(request, 'publishers.html', {
         'publishers': Book.objects.select_related('publisher').order_by('publisher'),
     },)
+
+class FriendAdd(CreateView):
+    model = Friend
+    form_class = FriendForm
+    success_url = reverse_lazy('p_library:friend_list')
+    template_name = 'friend_add.html'
+
+class FriendList(ListView):
+    model = Friend
+    template_name = 'friends.html'
+
+class FriendDetail(DetailView):
+    model = Friend
+    template_name = 'friend_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sent_book"] = self.object.bookreader_set.all()
+        return context
+    
+
+class BookSend(CreateView):
+    model = BookReader
+    form_class = BookSendForm
+    success_url = reverse_lazy('p_library:friend_list')
+    template_name = 'book_send.html'
+    
