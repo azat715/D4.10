@@ -57,3 +57,10 @@ class BookReader(models.Model):
     friend = models.ForeignKey(Friend, on_delete=models.CASCADE)
     date_send = models.DateField()
     copy_count_send = models.PositiveSmallIntegerField(default=1)
+
+    def __repr__(self):
+        return 'BookReader({self.book.title}, {self.friend.name}, {self.date_send}, {self.copy_count_send})'.format(self=self)
+
+    def __str__(self):
+        return str('{self.book.title}, {self.friend.name}, {self.date_send}, {self.copy_count_send}'.format(self=self))
+    

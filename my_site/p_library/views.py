@@ -84,7 +84,7 @@ class FriendDetail(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["sent_book"] = self.object.bookreader_set.all()
+        context["sent_books"] = self.object.bookreader_set.all()
         return context
     
 

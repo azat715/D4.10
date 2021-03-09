@@ -10,7 +10,7 @@
         <td scope="col">Количество копий</td>
         <td scope="col">Дата</td>
     </tr>
-    {% for item in sent_book %}
+    {% for item in sent_books %}
     <tr>
         <td >{{ item.book.title }}</td>
         <td>{{ item.copy_count_send }}</td>
