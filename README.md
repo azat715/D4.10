@@ -1,8 +1,14 @@
-# D4.10
+# D4.10, D5.10
 
 Пути:
-* /publishers
-* /index
+* admin/
+* books_json
+* books 
+* books/send 
+* publishers 
+* friend/create
+* friends
+* friends/<int:pk>
 
 Пароль от админки
 
