@@ -5,7 +5,11 @@
 <ul>
     {% for publisher in publishers_list %}
         <li>
-            {{ publisher.grouper }}
+            {% if publisher.grouper.name %}
+                <a href="{% url 'p_library:publisher_detail' publisher.grouper.pk %}">{{ publisher.grouper.name }}</a>
+            {% else %}
+                Нет издателя
+            {% endif %}
                 <ul>
                     {% for item in publisher.list %}
                         <li> {{ item.title }}</li>

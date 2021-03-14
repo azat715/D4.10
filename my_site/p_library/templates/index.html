@@ -19,7 +19,7 @@
     {% for book in books %}
     <tr>
         <td scope="row">{{ forloop.counter }}</td>
-        <td >{{ book.title }}</td>
+        <td ><a href="{% url 'p_library:book_detail' book.pk %}">{{ book.title }}</a></td>
         <td>{{ book.ISBN }}</td>
         <td>{{ book.description }}</td>
         <td>{{ book.year_release }}</td>
