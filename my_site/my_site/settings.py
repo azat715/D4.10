@@ -57,7 +57,7 @@ ROOT_URLCONF = "my_site.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        "DIRS": [BASE_DIR.joinpath('templates'),],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -127,3 +127,7 @@ MEDIA_URL = '/media/'
 
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+STATICFILES_DIRS = [
+    BASE_DIR.joinpath('static')
+]
