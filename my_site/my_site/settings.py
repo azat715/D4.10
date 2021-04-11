@@ -37,6 +37,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django.contrib.sites",
+    "allauth",
+    "allauth.account",
+    "allauth.socialaccount",
+    "allauth.socialaccount.providers.github",
     "crispy_forms",
     "common",
     "p_library",
@@ -133,8 +138,24 @@ STATICFILES_DIRS = [
 ]
 
 
-LOGIN_URL = 'common:login'
+# LOGIN_URL = 'common:login'
 
-LOGIN_REDIRECT_URL =  '/'
+# LOGIN_REDIRECT_URL =  '/'
 
 # LOGOUT_REDIRECT_URL = 'common:logout_redirect'
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+
+]
+
+SITE_ID = 1
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            "read:user",
+        ],
+    }
+}
