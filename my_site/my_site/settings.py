@@ -131,3 +131,10 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = [
     BASE_DIR.joinpath('static')
 ]
+
+
+LOGIN_URL = 'common:login'
+
+LOGIN_REDIRECT_URL =  '/'
+
+# LOGOUT_REDIRECT_URL = 'common:logout_redirect'

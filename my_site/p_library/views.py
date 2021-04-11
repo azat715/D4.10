@@ -5,6 +5,8 @@ from django.shortcuts import redirect, render
 from django.template import loader
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, ListView
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from p_library.forms import (AuthorCreateForm, BookCreateFormMin, BookSendForm,
                              FriendCreateForm, PublisherCreateForm)
@@ -18,7 +20,7 @@ def books_json(request):
     qs_json = serializers.serialize("json", books)
     return HttpResponse(qs_json, content_type="application/json")
 
-
+@login_required
 def books_list(request):
     template = loader.get_template("index.html")
     books = Book.objects.all()
@@ -30,6 +32,7 @@ def books_list(request):
     return HttpResponse(template.render(biblio_data, request))
 
 
+@login_required
 def book_increment(request):
     if request.method == "POST":
         book_id = request.POST["id"]
@@ -46,6 +49,7 @@ def book_increment(request):
         return redirect("p_library:books")
 
 
+@login_required
 def book_decrement(request):
     if request.method == "POST":
         book_id = request.POST["id"]
@@ -65,30 +69,31 @@ def book_decrement(request):
         return redirect("p_library:books")
 
 
-class AuthorAdd(CreateView):
+class AuthorAdd(LoginRequiredMixin, CreateView):
     model = Author
     form_class = AuthorCreateForm
     success_url = reverse_lazy("p_library:create")
     template_name = "item_add.html"
 
 
-class AuthorList(ListView):
+
+class AuthorList(LoginRequiredMixin, ListView):
     model = Author
     template_name = "authors.html"
 
 
-class AuthorDetail(DetailView):
+class AuthorDetail(LoginRequiredMixin, DetailView):
     model = Author
     template_name = "author_detail.html"
 
 
-class PublisherAdd(CreateView):
+class PublisherAdd(LoginRequiredMixin, CreateView):
     model = Publisher
     form_class = PublisherCreateForm
     success_url = reverse_lazy("p_library:create")
     template_name = "item_add.html"
 
-
+@login_required
 def publisher_list(request):
     return render(
         request,
@@ -101,24 +106,24 @@ def publisher_list(request):
     )
 
 
-class PublisherDetail(DetailView):
+class PublisherDetail(LoginRequiredMixin, DetailView):
     model = Publisher
     template_name = "publisher_detail.html"
 
 
-class FriendAdd(CreateView):
+class FriendAdd(LoginRequiredMixin, CreateView):
     model = Friend
     form_class = FriendCreateForm
     success_url = reverse_lazy("p_library:friend_list")
     template_name = "item_add.html"
 
 
-class FriendList(ListView):  # pylint: disable=too-many-ancestors
+class FriendList(LoginRequiredMixin, ListView):  # pylint: disable=too-many-ancestors
     model = Friend
     template_name = "friends.html"
 
 
-class FriendDetail(DetailView):
+class FriendDetail(LoginRequiredMixin, DetailView):
     model = Friend
     template_name = "friend_detail.html"
 
@@ -128,7 +133,7 @@ class FriendDetail(DetailView):
         return context
 
 
-class BookDetail(DetailView):
+class BookDetail(LoginRequiredMixin, DetailView):
     model = Book
     template_name = "book_detail.html"
 
@@ -139,13 +144,13 @@ class BookDetail(DetailView):
         return context
 
 
-class BookSend(CreateView):
+class BookSend(LoginRequiredMixin, CreateView):
     model = BookReader
     form_class = BookSendForm
     success_url = reverse_lazy("p_library:friend_list")
     template_name = "book_send.html"
 
-
+@login_required
 def create_book_full(request):
     BookForm = modelform_factory(Book, exclude=("author", "publisher", "book_reader"))
     if request.method == "POST":
@@ -179,20 +184,21 @@ def create_book_full(request):
         },
     )
 
+@login_required
 def create_redirect(request):
-    print(type(request.GET))
     if request.GET.get('form'):
         return redirect('p_library:create_min')
     return redirect('p_library:create_full')
 
 
-class BookCreateMin(CreateView):
+
+class BookCreateMin(LoginRequiredMixin, CreateView):
     model = Book
     form_class = BookCreateFormMin
     template_name = "book_add.html"
 
     def form_valid(self, form):
-        self.object = form.save(commit=False)
+        self.object = form.save(commit=False) # pylint: disable=attribute-defined-outside-init
         print(form["author"])
         print(type(form["author"]))
         self.object.author = form.cleaned_data["author"]
