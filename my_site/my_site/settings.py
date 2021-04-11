@@ -159,3 +159,6 @@ SOCIALACCOUNT_PROVIDERS = {
         ],
     }
 }
+
+# отключил регистрацию новых пользователей
+ACCOUNT_ADAPTER = 'common.adapter.NoNewUsersAccountAdapter'
