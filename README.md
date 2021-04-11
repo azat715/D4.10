@@ -7,6 +7,7 @@
 * pylint-django
 * Pillow
 * django-crispy-forms
+* django-allauth
 
 ### Установка 
 `activate your virtualenv`
@@ -29,7 +30,13 @@
 * friends/<int:pk>
 * authors
 * authors/<int:pk>
+* logout
 
 Пароль от админки
 
 admin:123
+
+
+пароль от изюра
+
+simple_username: kKUdS2itGcFpRFe
